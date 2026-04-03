@@ -72,7 +72,7 @@ async def update_redis_online(user_id: str, name: str = "", action: str = "add",
 
 async def load_past_messages():
     if not runtime.redis_client:
-        return []
+        return list(runtime.chat_history_local)
 
     try:
         raw_msgs = await runtime.redis_client.lrange(runtime.CHAT_HISTORY_KEY, 0, -1)
@@ -94,6 +94,9 @@ async def load_past_messages():
 
 async def persist_message(message: dict):
     if not runtime.redis_client:
+        runtime.chat_history_local.append(message)
+        if len(runtime.chat_history_local) > runtime.MAX_HISTORY:
+            runtime.chat_history_local = runtime.chat_history_local[-runtime.MAX_HISTORY :]
         return
 
     try:

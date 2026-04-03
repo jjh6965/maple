@@ -129,6 +129,7 @@ sid_to_session_token = {}
 online_users_local = {}
 online_user_roles_local = {}
 user_names_cache = {}
+chat_history_local = []
 
 _last_broadcast_time = 0.0
 _pending_broadcast = False
