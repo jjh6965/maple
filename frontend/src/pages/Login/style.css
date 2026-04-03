@@ -1,0 +1,91 @@
+.login-body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    sans-serif;
+  background-color: #f4f7f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+.main-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+  color: #1e293b;
+}
+.form-group.input-with-icon {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group.input-with-icon .input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #94a3b8;
+}
+
+.form-group.input-with-icon input {
+  width: 100%;
+  padding: 14px 14px 14px 45px; /* 왼쪽 패딩을 늘려 아이콘 공간 확보 */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.form-group.input-with-icon input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-submit-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.error-msg {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.footer-links {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.footer-links a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: bold;
+}

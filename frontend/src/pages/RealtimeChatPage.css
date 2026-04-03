@@ -1,0 +1,24 @@
+.chat-page {
+  min-height: calc(100vh - 58px);
+  background: #0f1720;
+  padding: 16px;
+}
+
+.chat-page-card {
+  max-width: 920px;
+  margin: 0 auto;
+  border: 1px solid #2d4154;
+  background: #162534;
+  border-radius: 12px;
+  padding: 14px;
+  color: #d8e4ef;
+}
+
+.chat-page-card h2 {
+  margin: 0 0 6px;
+}
+
+.chat-page-card p {
+  margin: 0 0 12px;
+  color: #9eb4c8;
+}

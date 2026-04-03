@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: change_me
+      MARIADB_DATABASE: maple_guild_app
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: maple_guild_app
+      USE_REDIS: "true"
+      REDIS_URL: redis://redis:6379/0
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://backend:8000
+    ports:
+      - "5173:5173"
+
+volumes:
+  mariadb_data:
+      VITE_API_PORT: "8000"
+      VITE_API_URL: "http://192.168.0.151.nip.io:8000"
+      VITE_BACKEND_TARGET: "http://backend:8000"
+      VITE_SOCKET_URL: "ws://192.168.0.151.nip.io:8001"
+      VITE_SOCKET_TARGET: "http://websocket:8001"
+      VITE_SOCKET_PORT: "8001"
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  ollama_data:
+  mariadb_data:
+  chroma_data:
