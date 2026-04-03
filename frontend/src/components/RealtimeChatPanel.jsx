@@ -10,6 +10,7 @@ export default function RealtimeChatPanel() {
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
+  const [error, setError] = useState("");
 
   const sessionToken = localStorage.getItem("session_token");
   const userDbId = localStorage.getItem("userDbId");
@@ -23,10 +24,29 @@ export default function RealtimeChatPanel() {
       auth: { session_token: sessionToken },
     });
 
-    client.on("connect", () => setConnected(true));
+    client.on("connect", () => {
+      setConnected(true);
+      setError("");
+    });
     client.on("disconnect", () => setConnected(false));
+
+    client.on("connect_error", (err) => {
+      setConnected(false);
+      setError(err?.message || "소켓 연결 실패");
+    });
+
+    client.on("initMessages", (past) => {
+      if (Array.isArray(past)) {
+        setMessages(past.slice(-120));
+      }
+    });
+
     client.on("receiveMessage", (msg) => {
       setMessages((prev) => [...prev.slice(-119), msg]);
+    });
+
+    client.on("errorMessage", (payload) => {
+      setError(payload?.message || "메시지 전송 오류");
     });
 
     setSocket(client);
@@ -53,6 +73,7 @@ export default function RealtimeChatPanel() {
           {connected ? "ON" : "OFF"}
         </span>
       </div>
+      {!!error && <p className="empty">{error}</p>}
       <div className="realtime-chat-body">
         {messages.map((m, i) => (
           <p key={`${m.timestamp || i}-${i}`}>
@@ -60,7 +81,7 @@ export default function RealtimeChatPanel() {
             {m.content}
           </p>
         ))}
-        {messages.length === 0 && (
+        {messages.length === 0 && !error && (
           <p className="empty">채팅이 비어 있습니다.</p>
         )}
       </div>
