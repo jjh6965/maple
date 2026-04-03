@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import Base, engine
 from routers.auth.minimal_router import router as auth_router
-from routers.websocket.websocket_events import websocket_app
+from routers.websocket.websocket_runtime import websocket_app
 
 
 app = FastAPI(title="Maple Guild Chat API", version="1.0.0")
